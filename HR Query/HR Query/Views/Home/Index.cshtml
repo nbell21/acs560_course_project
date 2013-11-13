@@ -1,0 +1,43 @@
+﻿@model HR_Query.Models.LoginModel
+
+@{
+    ViewBag.Title = "Home";
+}
+
+<h1>Welcome to HR Query!</h1>
+
+<div class="well">
+    <h3>To begin using HR Query, log in with your user name and password.</h3>
+    @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl }))
+    {
+        @Html.AntiForgeryToken()
+            
+        <p>
+            @Html.LabelFor(m => m.UserName)
+            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.UserName, String.Empty, new { @class = "text-danger" })
+        </p> 
+        <p>
+            @Html.LabelFor(m => m.Password)
+            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Password, String.Empty, new { @class = "text-danger" })
+        </p>
+        
+        <br />
+        
+        @Html.ValidationSummary(true, String.Empty, new { @class = "strong text-danger" })
+
+        <button type="submit" class="btn btn-info">Log in</button>
+        
+        <br />
+        <br />
+        
+        <p>
+            @Html.ActionLink("Register", "Register") if you don't have an account.
+        </p>
+    }
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
