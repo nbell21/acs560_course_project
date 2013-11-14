@@ -33,16 +33,25 @@ namespace HR_Query.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult Index(LoginModel model, string returnUrl)
+        public ActionResult Index(LoginModel model)
         {
             if (ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
             {
-                return RedirectToLocal(returnUrl);
+                return RedirectToAction("Options", "Home");
             }
 
             // If we got this far, something failed, redisplay form
             ModelState.AddModelError("", "The user name or password provided is incorrect. Please re-enter your username and password.");
             return View(model);
+        }
+
+        //
+        // GET: /Options/
+
+        [AllowAnonymous]
+        public ActionResult Options()
+        {
+            return View();
         }
 
         //
