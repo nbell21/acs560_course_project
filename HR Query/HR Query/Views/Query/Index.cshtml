@@ -61,6 +61,11 @@
         }
 
         $("#optionsResult").change(function () {
+
+            $('#departmentsResult option:eq(0)').attr('selected', 'selected');
+            $('#locationsResult option:eq(0)').attr('selected', 'selected');
+            $('#positionTypeResult option:eq(0)').attr('selected', 'selected');
+
             var _selected = $("#optionsResult").val();
 
             if (_selected == 0) {

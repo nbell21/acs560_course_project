@@ -176,7 +176,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\EmployeeQuery.cs" />
+    <Compile Include="Models\EmployeeProfileModel.cs" />
+    <Compile Include="Models\EmployeeQueryModel.cs" />
     <Compile Include="Models\HRQueryModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -257,8 +258,10 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Query\Index.cshtml" />
     <Content Include="Views\Home\Options.cshtml" />
-    <Content Include="Views\Query\EmployeeList.cshtml" />
+    <Content Include="Views\Query\FilteredEmployeeList.cshtml" />
     <Content Include="Views\Profile\Index.cshtml" />
+    <Content Include="Views\Query\CompleteEmployeeList.cshtml" />
+    <Content Include="Views\Query\NullEmployeeList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

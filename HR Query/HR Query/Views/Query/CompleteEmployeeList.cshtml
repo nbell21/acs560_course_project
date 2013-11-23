@@ -1,4 +1,4 @@
-﻿@model List<HR_Query.Models.EmployeeQuery>
+﻿@model List<HR_Query.Models.EmployeeQueryModel>
 @{
     ViewBag.Title = "Employee List";
 }
@@ -26,15 +26,16 @@
                 {
                     <tr>
                         <td>
-                            @Html.ActionLink(item.EmployeeName, "Index", "Profile", new { id = item.EmployeeID }, null)
+                            @Html.ActionLink(item.EmployeeName, "Index", "Profile", new { profile_id = item.EmployeeID }, null)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.DepartmentName)
+                            @Html.DisplayFor(modelItem => item.SearchedCriteria)
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
+        @Html.ActionLink("Return", "Options", "Home") to pick a new option.
     </div>
 
 </div>

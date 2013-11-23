@@ -11,7 +11,8 @@ namespace HR_Query.Controllers
     {
 
         private int _selectedId;
-        private List<EmployeeQuery> modelItems = new List<EmployeeQuery>();
+        private int _searchType;
+        private List<EmployeeQueryModel> modelItems = new List<EmployeeQueryModel>();
 
         //
         // GET: /Query/
@@ -32,6 +33,10 @@ namespace HR_Query.Controllers
 
             var myList = new List<SelectListItem>();
 
+            model.DepartmentsDropDown.Add(new SelectListItem { Text = "Select an option...", Value = "0" });
+            model.LocationsDropDown.Add(new SelectListItem { Text = "Select an option...", Value = "0" });
+            model.PositionTypeDropDown.Add(new SelectListItem { Text = "Select an option...", Value = "0" });
+
             var list = db.Departments.ToList();
 
             var items = from g in list
@@ -45,7 +50,7 @@ namespace HR_Query.Controllers
             {
                 model.DepartmentsDropDown.Add(item);
             }
-
+            
             var list2 = db.Locations.ToList();
 
             var items2 = from g in list2
@@ -86,35 +91,133 @@ namespace HR_Query.Controllers
         public ActionResult Index(QueryModel qModel)
         {
 
-            _selectedId = int.Parse(qModel.DepartmentsDropDownSelection);
-            return RedirectToAction("EmployeeList", new { _selectedId = _selectedId });
+            int departmentSelection = int.Parse(qModel.DepartmentsDropDownSelection);
+            int locationSelection = int.Parse(qModel.LocationsDropDownSelection);
+            int positionTypeSelection = int.Parse(qModel.PositionTypeDropDownSelection);
+
+            if (departmentSelection > 0)
+            {
+                _selectedId = departmentSelection;
+                _searchType = 1;
+            }
+            else if (locationSelection > 0)
+            {
+                _selectedId = locationSelection;
+                _searchType = 2;
+            }
+            else if (positionTypeSelection > 0)
+            {
+                _selectedId = positionTypeSelection;
+                _searchType = 3;
+            }
+            else
+                return RedirectToAction("NullEmployeeList");
+
+            return RedirectToAction("FilteredEmployeeList", new { _selectedId = _selectedId, _searchType = _searchType });
         }
 
         //
-        // GET: /EmployeeList/
+        // GET: /FilteredEmployeeList/
 
-        public ActionResult EmployeeList(int _selectedId)
+        public ActionResult FilteredEmployeeList(int _selectedId, int _searchType)
         {
             
             using (var db = new HR_QueryEntities())
             {
-                List<Employee> query = db.Employees.Select(x => x).Where(x => x.Department == _selectedId).ToList();
+                if (_searchType == 1)
+                {
+                    List<Employee> query = db.Employees.Select(x => x).Where(x => x.Department == _selectedId).ToList();
+
+                    if(query.Count == 0)
+                        return RedirectToAction("NullEmployeeList");
+
+                    ViewBag.Message = "Employee Department";
+
+                    foreach (Employee e in query)
+                    {
+                        EmployeeQueryModel model = new EmployeeQueryModel();
+                        model.EmployeeID = e.Employee_ID;
+                        model.EmployeeName = e.Employee_Name;
+                        model.SearchedCriteria = (db.Departments.Select(x => x).Where(x => x.Dept_ID == e.Department).First()).Dept_Name;
+
+                        modelItems.Add(model);
+                    }
+                }
+                else if (_searchType == 2)
+                {
+                    List<Employee> query = db.Employees.Select(x => x).Where(x => x.Location == _selectedId).ToList();
+
+                    if (query.Count == 0)
+                        return RedirectToAction("NullEmployeeList");
+
+                    ViewBag.Message = "Employee Location";
+
+                    foreach (Employee e in query)
+                    {
+                        EmployeeQueryModel model = new EmployeeQueryModel();
+                        model.EmployeeID = e.Employee_ID;
+                        model.EmployeeName = e.Employee_Name;
+                        model.SearchedCriteria = (db.Locations.Select(x => x).Where(x => x.Location_ID == e.Location).First()).Location_Name;
+
+                        modelItems.Add(model);
+                    }
+                }
+                else
+                {
+                    List<Employee> query = db.Employees.Select(x => x).Where(x => x.Position_Type == _selectedId).ToList();
+
+                    if (query.Count == 0)
+                        return RedirectToAction("NullEmployeeList");
+
+                    ViewBag.Message = "Employee Position Type";
+
+                    foreach (Employee e in query)
+                    {
+                        EmployeeQueryModel model = new EmployeeQueryModel();
+                        model.EmployeeID = e.Employee_ID;
+                        model.EmployeeName = e.Employee_Name;
+                        model.SearchedCriteria = (db.Position_Types.Select(x => x).Where(x => x.Position_Type_ID == e.Position_Type).First()).Position_Type_Name;
+
+                        modelItems.Add(model);
+                    }
+                }
+                return View(modelItems);
+
+            }
+        }
+
+        //
+        // GET: /CompleteEmployeeList/
+
+        public ActionResult CompleteEmployeeList()
+        {
+
+            using (var db = new HR_QueryEntities())
+            {
+                List<Employee> query = db.Employees.Select(x => x).ToList();
 
                 foreach (Employee e in query)
                 {
-                    EmployeeQuery model = new EmployeeQuery();
+                    EmployeeQueryModel model = new EmployeeQueryModel();
                     model.EmployeeID = e.Employee_ID;
                     model.EmployeeName = e.Employee_Name;
-                    model.DepartmentName = (db.Departments.Select(x => x).Where(x => x.Dept_ID == e.Department).First()).Dept_Name;
+                    model.SearchedCriteria = (db.Departments.Select(x => x).Where(x => x.Dept_ID == e.Department).First()).Dept_Name;
 
                     modelItems.Add(model);
-
-                    //Location loc = db.Employees.Select(x => x.Location).Where(x => x.Location_ID == e.Location);
                 }
 
                 return View(modelItems);
 
             }
         }
+
+         //
+        // GET: /NullEmployeeList/
+
+        public ActionResult NullEmployeeList()
+        {
+            return View();
+        }
     }
+
 }
