@@ -9,14 +9,98 @@
 <div class ="well">
 
     <h3>To query for a company employee, select from the following options:</h3>
+    @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl }))
+    {
 
-        @Html.DropDownListFor(m => m.OptionsDropDownSelection, Model.OptionsDropDown, new {@class = "btn btn-default"}) 
+        @Html.DropDownListFor(m => m.OptionsDropDownSelection, Model.OptionsDropDown, new {@class = "btn btn-default", @id = "optionsResult"}) 
 
         <br />
         <br />
     
-    <h3>Select a department:</h3>
+    <h3 id ="departmentsHeader">Select a department:</h3>
 
-        @Html.DropDownListFor(m => m.DepartmentsDropDownSelection, Model.DepartmentsDropDown, new {@class = "btn btn-default"}) 
+        @Html.DropDownListFor(m => m.DepartmentsDropDownSelection, Model.DepartmentsDropDown, new {@class = "btn btn-default", @id = "departmentsResult" }) 
+
+    <h3 id ="locationsHeader">Select a location:</h3>
+
+        @Html.DropDownListFor(m => m.LocationsDropDownSelection, Model.LocationsDropDown, new {@class = "btn btn-default", @id = "locationsResult"}) 
+
+    <h3 id ="positionTypeHeader">Select a position type:</h3>
+
+        @Html.DropDownListFor(m => m.PositionTypeDropDownSelection, Model.PositionTypeDropDown, new {@class = "btn btn-default", @id = "positionTypeResult"}) 
+
+    <br />
+    <br />@*
+  
+    *@<button type="submit" id="submit" value="Index" class="btn btn-info" name="Index">Submit</button>
+
+    }
 
 </div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+
+        $(function () {
+
+            hideAll();
+
+        });
+
+        function hideAll() {
+
+            $("#departmentsHeader").hide();
+            $("#locationsHeader").hide();
+            $("#positionTypeHeader").hide();
+            $("#departmentsResult").hide();
+            $("#locationsResult").hide();
+            $("#positionTypeResult").hide();
+            $("#submit").hide();
+
+        }
+
+        $("#optionsResult").change(function () {
+            var _selected = $("#optionsResult").val();
+
+            if (_selected == 0) {
+
+                hideAll();
+            }
+
+            if (_selected == 1) {
+
+                $("#departmentsHeader").show();
+                $("#locationsHeader").hide();
+                $("#positionTypeHeader").hide();
+                $("#departmentsResult").show();
+                $("#locationsResult").hide();
+                $("#positionTypeResult").hide();
+                $("#submit").show();
+            }
+            if (_selected == 2) {
+
+                $("#departmentsHeader").hide();
+                $("#locationsHeader").show();
+                $("#positionTypeHeader").hide();
+                $("#departmentsResult").hide();
+                $("#locationsResult").show();
+                $("#positionTypeResult").hide();
+                $("#submit").show();
+
+            }
+            if (_selected == 3) {
+
+                $("#departmentsHeader").hide();
+                $("#locationsHeader").hide();
+                $("#positionTypeHeader").show();
+                $("#departmentsResult").hide();
+                $("#locationsResult").hide();
+                $("#positionTypeResult").show();
+                $("#submit").show();
+            }
+
+        });
+
+    </script>
+}

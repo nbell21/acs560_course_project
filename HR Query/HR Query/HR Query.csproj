@@ -164,31 +164,42 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\QueryController.cs" />
-    <Compile Include="Department.cs">
+    <Compile Include="Models\Department.cs">
+      <DependentUpon>HRQueryModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Employee.cs">
       <DependentUpon>HRQueryModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="HRQueryModel.Context.cs">
+    <Compile Include="Models\EmployeeQuery.cs" />
+    <Compile Include="Models\HRQueryModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>HRQueryModel.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="HRQueryModel.cs">
+    <Compile Include="Models\HRQueryModel.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>HRQueryModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="HRQueryModel.Designer.cs">
+    <Compile Include="Models\HRQueryModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>HRQueryModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\Location.cs">
+      <DependentUpon>HRQueryModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\HomeModels.cs" />
     <Compile Include="Models\QueryModel.cs" />
+    <Compile Include="Models\Position_Type.cs">
+      <DependentUpon>HRQueryModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -197,19 +208,19 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <EntityDeploy Include="HRQueryModel.edmx">
+    <EntityDeploy Include="Models\HRQueryModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>HRQueryModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="HRQueryModel.Context.tt">
+    <Content Include="Models\HRQueryModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>HRQueryModel.edmx</DependentUpon>
       <LastGenOutput>HRQueryModel.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="HRQueryModel.edmx.diagram">
+    <Content Include="Models\HRQueryModel.edmx.diagram">
       <DependentUpon>HRQueryModel.edmx</DependentUpon>
     </Content>
-    <Content Include="HRQueryModel.tt">
+    <Content Include="Models\HRQueryModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>HRQueryModel.edmx</DependentUpon>
       <LastGenOutput>HRQueryModel.cs</LastGenOutput>
@@ -238,8 +249,6 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Scripts\_references.js" />
-    <Content Include="Views\Home\_ChangePasswordPartial.cshtml" />
-    <Content Include="Views\Home\_SetPasswordPartial.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Manage.cshtml" />
     <Content Include="Views\Home\Register.cshtml" />
@@ -248,6 +257,8 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Query\Index.cshtml" />
     <Content Include="Views\Home\Options.cshtml" />
+    <Content Include="Views\Query\EmployeeList.cshtml" />
+    <Content Include="Views\Profile\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

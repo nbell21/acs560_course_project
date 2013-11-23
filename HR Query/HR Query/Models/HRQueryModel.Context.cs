@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace HR_Query
+namespace HR_Query.Models
 {
     using System;
     using System.Data.Entity;
@@ -26,5 +26,8 @@ namespace HR_Query
         }
     
         public DbSet<Department> Departments { get; set; }
+        public DbSet<Employee> Employees { get; set; }
+        public DbSet<Location> Locations { get; set; }
+        public DbSet<Position_Type> Position_Types { get; set; }
     }
 }

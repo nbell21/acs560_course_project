@@ -7,14 +7,21 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace HR_Query
+namespace HR_Query.Models
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class Department
+    public partial class Location
     {
-        public int Dept_ID { get; set; }
-        public string Dept_Name { get; set; }
+        public Location()
+        {
+            this.Employees = new HashSet<Employee>();
+        }
+    
+        public int Location_ID { get; set; }
+        public string Location_Name { get; set; }
+    
+        public virtual ICollection<Employee> Employees { get; set; }
     }
 }

@@ -1,0 +1,251 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="HRQueryModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="HRQueryModelStoreContainer">
+          <EntitySet Name="Department" EntityType="HRQueryModel.Store.Department" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Employee" EntityType="HRQueryModel.Store.Employee" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Location" EntityType="HRQueryModel.Store.Location" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Position Type" EntityType="HRQueryModel.Store.Position Type" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_Employee_Department" Association="HRQueryModel.Store.FK_Employee_Department">
+            <End Role="Department" EntitySet="Department" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_Location" Association="HRQueryModel.Store.FK_Employee_Location">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_Position_Type" Association="HRQueryModel.Store.FK_Employee_Position_Type">
+            <End Role="Position Type" EntitySet="Position Type" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="Dept ID" />
+          </Key>
+          <Property Name="Dept ID" Type="int" Nullable="false" />
+          <Property Name="Dept Name" Type="nchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="Employee ID" />
+          </Key>
+          <Property Name="Employee ID" Type="int" Nullable="false" />
+          <Property Name="Employee Name" Type="nchar" Nullable="false" MaxLength="50" />
+          <Property Name="Department" Type="int" Nullable="false" />
+          <Property Name="Location" Type="int" Nullable="false" />
+          <Property Name="Position Type" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Location">
+          <Key>
+            <PropertyRef Name="Location ID" />
+          </Key>
+          <Property Name="Location ID" Type="int" Nullable="false" />
+          <Property Name="Location Name" Type="nchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Position Type">
+          <Key>
+            <PropertyRef Name="Position Type ID" />
+          </Key>
+          <Property Name="Position Type ID" Type="int" Nullable="false" />
+          <Property Name="Position Type Name" Type="nchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_Employee_Department">
+          <End Role="Department" Type="HRQueryModel.Store.Department" Multiplicity="1" />
+          <End Role="Employee" Type="HRQueryModel.Store.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="Dept ID" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="Department" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_Location">
+          <End Role="Location" Type="HRQueryModel.Store.Location" Multiplicity="1" />
+          <End Role="Employee" Type="HRQueryModel.Store.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="Location ID" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="Location" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_Position_Type">
+          <End Role="Position Type" Type="HRQueryModel.Store.Position Type" Multiplicity="1" />
+          <End Role="Employee" Type="HRQueryModel.Store.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Position Type">
+              <PropertyRef Name="Position Type ID" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="Position Type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="HRQueryModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="HR_QueryEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="Departments" EntityType="HRQueryModel.Department" />
+          <EntitySet Name="Employees" EntityType="HRQueryModel.Employee" />
+          <EntitySet Name="Locations" EntityType="HRQueryModel.Location" />
+          <EntitySet Name="Position_Types" EntityType="HRQueryModel.Position_Type" />
+          <AssociationSet Name="FK_Employee_Department" Association="HRQueryModel.FK_Employee_Department">
+            <End Role="Department" EntitySet="Departments" />
+            <End Role="Employee" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_Location" Association="HRQueryModel.FK_Employee_Location">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="Employee" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_Position_Type" Association="HRQueryModel.FK_Employee_Position_Type">
+            <End Role="Position_Type" EntitySet="Position_Types" />
+            <End Role="Employee" EntitySet="Employees" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="Dept_ID" />
+          </Key>
+          <Property Type="Int32" Name="Dept_ID" Nullable="false" />
+          <Property Type="String" Name="Dept_Name" Nullable="false" MaxLength="50" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Employees" Relationship="HRQueryModel.FK_Employee_Department" FromRole="Department" ToRole="Employee" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="Employee_ID" />
+          </Key>
+          <Property Type="Int32" Name="Employee_ID" Nullable="false" />
+          <Property Type="String" Name="Employee_Name" Nullable="false" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Type="Int32" Name="Department" Nullable="false" />
+          <Property Type="Int32" Name="Location" Nullable="false" />
+          <Property Type="Int32" Name="Position_Type" Nullable="false" />
+          <NavigationProperty Name="Department1" Relationship="HRQueryModel.FK_Employee_Department" FromRole="Employee" ToRole="Department" />
+          <NavigationProperty Name="Location1" Relationship="HRQueryModel.FK_Employee_Location" FromRole="Employee" ToRole="Location" />
+          <NavigationProperty Name="Position_Type1" Relationship="HRQueryModel.FK_Employee_Position_Type" FromRole="Employee" ToRole="Position_Type" />
+        </EntityType>
+        <EntityType Name="Location">
+          <Key>
+            <PropertyRef Name="Location_ID" />
+          </Key>
+          <Property Type="Int32" Name="Location_ID" Nullable="false" />
+          <Property Type="String" Name="Location_Name" MaxLength="50" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Employees" Relationship="HRQueryModel.FK_Employee_Location" FromRole="Location" ToRole="Employee" />
+        </EntityType>
+        <EntityType Name="Position_Type">
+          <Key>
+            <PropertyRef Name="Position_Type_ID" />
+          </Key>
+          <Property Type="Int32" Name="Position_Type_ID" Nullable="false" />
+          <Property Type="String" Name="Position_Type_Name" MaxLength="50" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Employees" Relationship="HRQueryModel.FK_Employee_Position_Type" FromRole="Position_Type" ToRole="Employee" />
+        </EntityType>
+        <Association Name="FK_Employee_Department">
+          <End Type="HRQueryModel.Department" Role="Department" Multiplicity="1" />
+          <End Type="HRQueryModel.Employee" Role="Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="Dept_ID" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="Department" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_Location">
+          <End Type="HRQueryModel.Location" Role="Location" Multiplicity="1" />
+          <End Type="HRQueryModel.Employee" Role="Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="Location_ID" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="Location" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_Position_Type">
+          <End Type="HRQueryModel.Position_Type" Role="Position_Type" Multiplicity="1" />
+          <End Type="HRQueryModel.Employee" Role="Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Position_Type">
+              <PropertyRef Name="Position_Type_ID" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="Position_Type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="HRQueryModelStoreContainer" CdmEntityContainer="HR_QueryEntities">
+          <EntitySetMapping Name="Departments">
+            <EntityTypeMapping TypeName="HRQueryModel.Department">
+              <MappingFragment StoreEntitySet="Department">
+                <ScalarProperty Name="Dept_Name" ColumnName="Dept Name" />
+                <ScalarProperty Name="Dept_ID" ColumnName="Dept ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employees">
+            <EntityTypeMapping TypeName="HRQueryModel.Employee">
+              <MappingFragment StoreEntitySet="Employee">
+                <ScalarProperty Name="Position_Type" ColumnName="Position Type" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="Department" ColumnName="Department" />
+                <ScalarProperty Name="Employee_Name" ColumnName="Employee Name" />
+                <ScalarProperty Name="Employee_ID" ColumnName="Employee ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Locations">
+            <EntityTypeMapping TypeName="HRQueryModel.Location">
+              <MappingFragment StoreEntitySet="Location">
+                <ScalarProperty Name="Location_Name" ColumnName="Location Name" />
+                <ScalarProperty Name="Location_ID" ColumnName="Location ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Position_Types">
+            <EntityTypeMapping TypeName="HRQueryModel.Position_Type">
+              <MappingFragment StoreEntitySet="Position Type">
+                <ScalarProperty Name="Position_Type_Name" ColumnName="Position Type Name" />
+                <ScalarProperty Name="Position_Type_ID" ColumnName="Position Type ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -2,13 +2,16 @@
     ViewBag.Title = "Options";
 }
 
-<h3>Hello </h3> @Html.ActionLink(User.Identity.Name, "Manage", "Home", routeValues: null, htmlAttributes: new { @class = "h3", title = "Manage" })!
-        @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" })) {
-            @Html.AntiForgeryToken()
-            <a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
-        }
-
+<h1>Hello @Html.ActionLink(User.Identity.Name, "Manage", "Home", routeValues: null, htmlAttributes: new {title = "Manage" })!</h1>
+        
 <div class="well">
     <h3>Please select from one of the following options:</h3>
+
+    @Html.ActionLink("Query", "Index", "Query") to find employees who meet your search criteria.
+
+    @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" })) {
+            @Html.AntiForgeryToken() 
+                <a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
+        }
 
 </div>

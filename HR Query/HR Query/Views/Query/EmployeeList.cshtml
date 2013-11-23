@@ -1,0 +1,40 @@
+﻿@model List<HR_Query.Models.EmployeeQuery>
+@{
+    ViewBag.Title = "Employee List";
+}
+
+<h1>Employee List.</h1>
+
+<div class ="well">
+
+    <h3>Select an employee from the list to view an employee's profile:</h3>
+    
+    <div class="container">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        Employee Name
+                    </th>
+                   <th>
+                        Employee Department
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.ActionLink(item.EmployeeName, "Index", "Profile", new { id = item.EmployeeID }, null)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DepartmentName)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+</div>
