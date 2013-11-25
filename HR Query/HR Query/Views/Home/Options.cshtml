@@ -7,9 +7,11 @@
 <div class="well">
     <h3>Please select from one of the following options:</h3>
 
-    <h4>@Html.ActionLink("Personnel", "CompleteEmployeeList", "Query") to find a list of all employees.</h4>
+    <h4>@Html.ActionLink("Personnel", "CompleteEmployeeList", "Query") to view a list of all employees.</h4>
 
-    <h4>@Html.ActionLink("Query", "Index", "Query") to find employees who meet your search criteria.</h4>
+    <h4>@Html.ActionLink("Query", "Index", "Query") to view employees who meet your search criteria.</h4>
+
+    <h4>@Html.ActionLink("Create", "Create", "Profile") to add a new employee.</h4>
 
     @using (Html.BeginForm("LogOff", "Home", FormMethod.Post, new { id = "logoutForm" })) {
             @Html.AntiForgeryToken() 

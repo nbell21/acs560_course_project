@@ -16,7 +16,8 @@ namespace HR_Query.Controllers
 
         //
         // GET: /Query/
-        
+
+        [HttpGet]
         public ActionResult Index()
         {
             using(var db = new HR_QueryEntities())
@@ -24,14 +25,9 @@ namespace HR_Query.Controllers
             var model = new QueryModel();
 
             model.OptionsDropDown.Add(new SelectListItem { Text = "Select an option...", Value = "0" });
-
             model.OptionsDropDown.Add(new SelectListItem { Text = "Query by department", Value = "1" });
-
             model.OptionsDropDown.Add(new SelectListItem { Text = "Query by location", Value = "2" });
-
             model.OptionsDropDown.Add(new SelectListItem { Text = "Query by position type", Value = "3" });
-
-            var myList = new List<SelectListItem>();
 
             model.DepartmentsDropDown.Add(new SelectListItem { Text = "Select an option...", Value = "0" });
             model.LocationsDropDown.Add(new SelectListItem { Text = "Select an option...", Value = "0" });

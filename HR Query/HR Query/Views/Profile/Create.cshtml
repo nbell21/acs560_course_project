@@ -1,0 +1,45 @@
+﻿@model HR_Query.Models.CreateEmployeeModel
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h1>Create a new employee.</h1>
+
+<div class="well">
+
+    <h3>Enter the following information:</h3>
+
+    @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl }))
+    {
+        @Html.AntiForgeryToken()
+            
+        <p>
+            @Html.LabelFor(m => m.EmployeeName)
+            @Html.TextBoxFor(m => m.EmployeeName, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.EmployeeName, String.Empty, new { @class = "text-danger" })
+        </p>
+        <h3 id="departmentsHeader">Select a department:</h3>
+
+        @Html.DropDownListFor(m => m.DepartmentsDropDownSelection, Model.DepartmentsDropDown, new { @class = "btn btn-default", @id = "departmentsResult" }) 
+
+        <h3 id="locationsHeader">Select a location:</h3>
+
+        @Html.DropDownListFor(m => m.LocationsDropDownSelection, Model.LocationsDropDown, new { @class = "btn btn-default", @id = "locationsResult" }) 
+
+        <h3 id="positionTypeHeader">Select a position type:</h3>
+
+        @Html.DropDownListFor(m => m.PositionTypeDropDownSelection, Model.PositionTypeDropDown, new { @class = "btn btn-default", @id = "positionTypeResult" }) 
+        <br />
+        
+        @Html.ValidationSummary(true, String.Empty, new { @class = "strong text-danger" })
+
+        <br />
+        
+        <button type="submit" class="btn btn-info">Submit</button>
+    }
+    <br />
+    
+    @Html.ActionLink("Return", "Options", "Home") to pick a new option.
+                                                  
+</div>
