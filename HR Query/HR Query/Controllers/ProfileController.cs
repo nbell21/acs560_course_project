@@ -9,20 +9,21 @@ namespace HR_Query.Controllers
 {
     public class ProfileController : Controller
     {
+        private List<PendingTransactionsModel> modelItems = new List<PendingTransactionsModel>();
+
         //
         // GET: /Profile/
 
         public ActionResult Index(int profile_id = 0)
         {
-            //profile_id++;
-
             using (var db = new HR_QueryEntities())
             {
                 Employee profileEmployee = (Employee)db.Employees.Select(x => x).Where(x => x.Employee_ID == profile_id).First();
 
                 EmployeeProfileModel model = new EmployeeProfileModel();
                 model.EmployeeID = profileEmployee.Employee_ID;
-                model.EmployeeName = profileEmployee.Employee_Name;
+                model.EmployeeFirstName = profileEmployee.First_Name;
+                model.EmployeeLastName = profileEmployee.Last_Name;
                 model.DepartmentName = (db.Departments.Select(x => x).Where(x => x.Dept_ID == profileEmployee.Department).First()).Dept_Name;
                 model.LocationName = (db.Locations.Select(x => x).Where(x => x.Location_ID == profileEmployee.Location).First()).Location_Name;
                 model.PositionTypeName = (db.Position_Types.Select(x => x).Where(x => x.Position_Type_ID == profileEmployee.Position_Type).First()).Position_Type_Name;
@@ -47,12 +48,7 @@ namespace HR_Query.Controllers
 
                 var list = db.Departments.ToList();
 
-                var items = from g in list
-                            select new SelectListItem
-                            {
-                                Value = g.Dept_ID.ToString(),
-                                Text = g.Dept_Name
-                            };
+                var items = from g in list select new SelectListItem { Value = g.Dept_ID.ToString(), Text = g.Dept_Name };
 
                 foreach (var item in items)
                 {
@@ -61,12 +57,7 @@ namespace HR_Query.Controllers
 
                 var list2 = db.Locations.ToList();
 
-                var items2 = from g in list2
-                             select new SelectListItem
-                             {
-                                 Value = g.Location_ID.ToString(),
-                                 Text = g.Location_Name
-                             };
+                var items2 = from g in list2 select new SelectListItem { Value = g.Location_ID.ToString(), Text = g.Location_Name };
 
                 foreach (var item in items2)
                 {
@@ -75,12 +66,7 @@ namespace HR_Query.Controllers
 
                 var list3 = db.Position_Types.ToList();
 
-                var items3 = from g in list3
-                             select new SelectListItem
-                             {
-                                 Value = g.Position_Type_ID.ToString(),
-                                 Text = g.Position_Type_Name
-                             };
+                var items3 = from g in list3 select new SelectListItem { Value = g.Position_Type_ID.ToString(), Text = g.Position_Type_Name };
 
                 foreach (var item in items3)
                 {
@@ -99,16 +85,134 @@ namespace HR_Query.Controllers
         {
             using (var db = new HR_QueryEntities())
             {
-                Employee newEmployee = new Employee();
+                cModel.DepartmentsDropDown.Add(new SelectListItem { Text = "Select an option...", Value = "0" });
+                cModel.LocationsDropDown.Add(new SelectListItem { Text = "Select an option...", Value = "0" });
+                cModel.PositionTypeDropDown.Add(new SelectListItem { Text = "Select an option...", Value = "0" });
 
-                int newID = db.Employees.Count() + 1;
-                newEmployee.Employee_ID = newID;
-                newEmployee.Employee_Name = cModel.EmployeeName;
-                newEmployee.Department = int.Parse(cModel.DepartmentsDropDownSelection);
-                newEmployee.Location = int.Parse(cModel.LocationsDropDownSelection);
-                newEmployee.Position_Type = int.Parse(cModel.PositionTypeDropDownSelection);
+                var list = db.Departments.ToList();
 
-                db.Employees.Add(newEmployee);
+                var items = from g in list select new SelectListItem { Value = g.Dept_ID.ToString(), Text = g.Dept_Name };
+
+                foreach (var item in items)
+                {
+                    cModel.DepartmentsDropDown.Add(item);
+                }
+
+                var list2 = db.Locations.ToList();
+
+                var items2 = from g in list2 select new SelectListItem { Value = g.Location_ID.ToString(), Text = g.Location_Name };
+
+                foreach (var item in items2)
+                {
+                    cModel.LocationsDropDown.Add(item);
+                }
+
+                var list3 = db.Position_Types.ToList();
+
+                var items3 = from g in list3 select new SelectListItem { Value = g.Position_Type_ID.ToString(), Text = g.Position_Type_Name };
+
+                foreach (var item in items3)
+                {
+                    cModel.PositionTypeDropDown.Add(item);
+                }
+
+                if (ModelState.IsValid)
+                {
+                    Employee newEmployee = new Employee();
+
+                    newEmployee.First_Name = cModel.EmployeeFirstName;
+                    newEmployee.Last_Name = cModel.EmployeeLastName;
+                    newEmployee.Department = int.Parse(cModel.DepartmentsDropDownSelection);
+                    newEmployee.Location = int.Parse(cModel.LocationsDropDownSelection);
+                    newEmployee.Position_Type = int.Parse(cModel.PositionTypeDropDownSelection);
+
+                    Request newRequest = new Request();
+                    newRequest.Requestor_Name = User.Identity.Name;
+                    newRequest.Request_Status = true;
+                    newRequest.Employee_ID = (db.Employees.Select(x => x).ToList()).Last().Employee_ID + 1;
+                    newRequest.Request_Type_Index = 1;
+
+                    db.Employees.Add(newEmployee);
+                    db.Requests.Add(newRequest);
+                    db.SaveChanges();
+                    return RedirectToAction("Options", "Home");
+
+                }
+
+                ModelState.AddModelError("", "Please correct errors and resubmit.");
+                return View(cModel);
+            }
+        }
+
+        //
+        // GET: /Pending/
+
+        public ActionResult Pending()
+        {
+            
+            using (var db = new HR_QueryEntities())
+            {
+
+                List<Request> query = db.Requests.Select(x => x).Where(x => x.Request_Status == true).ToList();
+
+                if (query.Count == 0)
+                    return RedirectToAction("NullTransactionList");
+
+                foreach (Request r in query)
+                {
+                    PendingTransactionsModel model = new PendingTransactionsModel();
+
+                    model.RequestID = r.Request_ID;
+                    model.TransactionType = (db.Request_Types.Select(x => x).Where(x => x.Request_Type_ID == r.Request_Type_Index).First()).Request_Type_Name;
+                    model.EmployeeLastName = (db.Employees.Select(x => x).Where(x => x.Employee_ID == r.Employee_ID).First()).Last_Name;
+
+                    modelItems.Add(model);
+                }
+
+                return View(modelItems);
+            }
+        }
+
+        //
+        // GET: /Review/
+
+        public ActionResult Review(int request_id = 0)
+        {
+            using (var db = new HR_QueryEntities())
+            {
+                RequestModel model = new RequestModel();
+                Request selectedRequest = db.Requests.Select(x => x).Where(x => x.Request_ID == request_id).First();
+                Employee associatedEmployee = db.Employees.Select(x => x).Where(x => x.Employee_ID == selectedRequest.Employee_ID).First();
+
+                model.RequestID = selectedRequest.Request_ID;
+                model.RequestorName = selectedRequest.Requestor_Name;
+                model.TransactionType = (db.Request_Types.Select(x => x).Where(x => x.Request_Type_ID == selectedRequest.Request_Type_Index).First()).Request_Type_Name;
+                model.EmployeeFirstName = associatedEmployee.First_Name;
+                model.EmployeeLastName = associatedEmployee.Last_Name;
+                model.DepartmentName = (db.Departments.Select(x => x).Where(x => x.Dept_ID == associatedEmployee.Department).First()).Dept_Name;
+                model.LocationName = (db.Locations.Select(x => x).Where(x => x.Location_ID == associatedEmployee.Location).First()).Location_Name;
+                model.PositionTypeName = (db.Position_Types.Select(x => x).Where(x => x.Position_Type_ID == associatedEmployee.Position_Type).First()).Position_Type_Name;
+
+                return View(model);
+
+            }
+        }
+
+        //
+        // POST: /Review/
+        [HttpPost]
+        public ActionResult Review(RequestModel rModel)
+        {
+            using (var db = new HR_QueryEntities())
+            {
+                Request selectedRequest = db.Requests.Select(x => x).Where(x => x.Request_ID == rModel.RequestID).First();
+                Employee associatedEmployee = db.Employees.Select(x => x).Where(x => x.Employee_ID == selectedRequest.Employee_ID).First();
+
+                if (selectedRequest.Request_Type_Index == 1)
+                    associatedEmployee.Available = true;
+
+                selectedRequest.Request_Status = false;
+
                 db.SaveChanges();
 
                 return RedirectToAction("Options", "Home");

@@ -26,7 +26,7 @@
                 {
                     <tr>
                         <td>
-                            @Html.ActionLink(item.EmployeeName, "Index", "Profile", new { profile_id = item.EmployeeID }, null)
+                            @Html.ActionLink(item.EmployeeLastName, "Index", "Profile", new { profile_id = item.EmployeeID }, null)
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.SearchedCriteria)

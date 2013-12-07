@@ -12,18 +12,14 @@ namespace HR_Query.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Employee
+    public partial class Request
     {
+        public int Request_ID { get; set; }
+        public string Requestor_Name { get; set; }
+        public bool Request_Status { get; set; }
         public int Employee_ID { get; set; }
-        public string First_Name { get; set; }
-        public string Last_Name { get; set; }
-        public int Department { get; set; }
-        public int Location { get; set; }
-        public int Position_Type { get; set; }
-        public bool Available { get; set; }
+        public int Request_Type_Index { get; set; }
     
-        public virtual Department Department1 { get; set; }
-        public virtual Location Location1 { get; set; }
-        public virtual Position_Type Position_Type1 { get; set; }
+        public virtual Request_Type Request_Type { get; set; }
     }
 }

@@ -13,10 +13,12 @@
         <p>
                 @Html.LabelFor(m => m.UserName)
                 @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.UserName, String.Empty, new { @class = "text-danger" })
         </p>
         <p>
                 @Html.LabelFor(m => m.Password)
                 @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Password, String.Empty, new { @class = "text-danger" })
         </p> 
         <p>
                 @Html.LabelFor(m => m.ConfirmPassword)
@@ -28,7 +30,13 @@
         @Html.ValidationSummary(String.Empty, new { @class = "strong text-danger" })
     
         <button type="submit" class="btn btn-info">Register</button>
+    
 }
+        <br />
+
+        <p>
+            @Html.ActionLink("Log in", "Index") to return to log in screen.
+        </p>
     </div>
 
 @section Scripts {

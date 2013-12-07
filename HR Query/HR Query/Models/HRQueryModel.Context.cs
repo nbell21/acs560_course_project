@@ -29,5 +29,7 @@ namespace HR_Query.Models
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Location> Locations { get; set; }
         public DbSet<Position_Type> Position_Types { get; set; }
+        public DbSet<Request> Requests { get; set; }
+        public DbSet<Request_Type> Request_Types { get; set; }
     }
 }

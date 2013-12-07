@@ -1,23 +1,23 @@
-﻿@model List<HR_Query.Models.EmployeeQueryModel>
+﻿@model List<HR_Query.Models.PendingTransactionsModel>
 @{
-    ViewBag.Title = "Employee List";
+    ViewBag.Title = "Pending";
 }
 
-<h1>Employee List.</h1>
+<h1>Pending Transactions</h1>
 
-<div class ="well">
+<div class="well">
 
-    <h3>Select an employee from the list to view an employee's profile:</h3>
-    
+    <h3>Select from the following pending transactions:</h3>
+
     <div class="container">
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
                     <th>
-                        Employee Name
+                        Transaction Type
                     </th>
                    <th>
-                        Employee Department
+                        Associated Employee
                     </th>
                 </tr>
             </thead>
@@ -26,10 +26,10 @@
                 {
                     <tr>
                         <td>
-                            @Html.ActionLink(item.EmployeeLastName, "Index", "Profile", new { profile_id = item.EmployeeID }, null)
+                            @Html.ActionLink(item.TransactionType, "Review", "Profile", new { request_id = item.RequestID }, null)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.SearchedCriteria)
+                            @Html.DisplayFor(modelItem => item.EmployeeLastName)
                         </td>
                     </tr>
                 }
@@ -37,5 +37,5 @@
         </table>
         @Html.ActionLink("Return", "Options", "Home") to pick a new option.
     </div>
-
+    
 </div>

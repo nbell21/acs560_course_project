@@ -35,12 +35,7 @@ namespace HR_Query.Controllers
 
             var list = db.Departments.ToList();
 
-            var items = from g in list
-                        select new SelectListItem
-                        {
-                            Value = g.Dept_ID.ToString(),
-                            Text = g.Dept_Name
-                        };
+            var items = from g in list select new SelectListItem { Value = g.Dept_ID.ToString(), Text = g.Dept_Name };
 
             foreach (var item in items)
             {
@@ -49,12 +44,7 @@ namespace HR_Query.Controllers
             
             var list2 = db.Locations.ToList();
 
-            var items2 = from g in list2
-                        select new SelectListItem
-                        {
-                            Value = g.Location_ID.ToString(),
-                            Text = g.Location_Name
-                        };
+            var items2 = from g in list2 select new SelectListItem { Value = g.Location_ID.ToString(), Text = g.Location_Name };
 
             foreach (var item in items2)
             {
@@ -63,12 +53,7 @@ namespace HR_Query.Controllers
 
             var list3 = db.Position_Types.ToList();
 
-            var items3 = from g in list3
-                         select new SelectListItem
-                         {
-                             Value = g.Position_Type_ID.ToString(),
-                             Text = g.Position_Type_Name
-                         };
+            var items3 = from g in list3 select new SelectListItem { Value = g.Position_Type_ID.ToString(), Text = g.Position_Type_Name };
 
             foreach (var item in items3)
             {
@@ -122,7 +107,7 @@ namespace HR_Query.Controllers
             {
                 if (_searchType == 1)
                 {
-                    List<Employee> query = db.Employees.Select(x => x).Where(x => x.Department == _selectedId).ToList();
+                    List<Employee> query = db.Employees.Select(x => x).Where(x => x.Department == _selectedId && x.Available == true).ToList();
 
                     if(query.Count == 0)
                         return RedirectToAction("NullEmployeeList");
@@ -133,7 +118,7 @@ namespace HR_Query.Controllers
                     {
                         EmployeeQueryModel model = new EmployeeQueryModel();
                         model.EmployeeID = e.Employee_ID;
-                        model.EmployeeName = e.Employee_Name;
+                        model.EmployeeLastName = e.Last_Name;
                         model.SearchedCriteria = (db.Departments.Select(x => x).Where(x => x.Dept_ID == e.Department).First()).Dept_Name;
 
                         modelItems.Add(model);
@@ -141,7 +126,7 @@ namespace HR_Query.Controllers
                 }
                 else if (_searchType == 2)
                 {
-                    List<Employee> query = db.Employees.Select(x => x).Where(x => x.Location == _selectedId).ToList();
+                    List<Employee> query = db.Employees.Select(x => x).Where(x => x.Location == _selectedId && x.Available == true).ToList();
 
                     if (query.Count == 0)
                         return RedirectToAction("NullEmployeeList");
@@ -152,7 +137,7 @@ namespace HR_Query.Controllers
                     {
                         EmployeeQueryModel model = new EmployeeQueryModel();
                         model.EmployeeID = e.Employee_ID;
-                        model.EmployeeName = e.Employee_Name;
+                        model.EmployeeLastName = e.Last_Name;
                         model.SearchedCriteria = (db.Locations.Select(x => x).Where(x => x.Location_ID == e.Location).First()).Location_Name;
 
                         modelItems.Add(model);
@@ -160,7 +145,7 @@ namespace HR_Query.Controllers
                 }
                 else
                 {
-                    List<Employee> query = db.Employees.Select(x => x).Where(x => x.Position_Type == _selectedId).ToList();
+                    List<Employee> query = db.Employees.Select(x => x).Where(x => x.Position_Type == _selectedId && x.Available == true).ToList();
 
                     if (query.Count == 0)
                         return RedirectToAction("NullEmployeeList");
@@ -171,7 +156,7 @@ namespace HR_Query.Controllers
                     {
                         EmployeeQueryModel model = new EmployeeQueryModel();
                         model.EmployeeID = e.Employee_ID;
-                        model.EmployeeName = e.Employee_Name;
+                        model.EmployeeLastName = e.Last_Name;
                         model.SearchedCriteria = (db.Position_Types.Select(x => x).Where(x => x.Position_Type_ID == e.Position_Type).First()).Position_Type_Name;
 
                         modelItems.Add(model);
@@ -190,13 +175,13 @@ namespace HR_Query.Controllers
 
             using (var db = new HR_QueryEntities())
             {
-                List<Employee> query = db.Employees.Select(x => x).ToList();
+                List<Employee> query = db.Employees.Select(x => x).Where(x => x.Available == true).ToList();
 
                 foreach (Employee e in query)
                 {
                     EmployeeQueryModel model = new EmployeeQueryModel();
                     model.EmployeeID = e.Employee_ID;
-                    model.EmployeeName = e.Employee_Name;
+                    model.EmployeeLastName = e.Last_Name;
                     model.SearchedCriteria = (db.Departments.Select(x => x).Where(x => x.Dept_ID == e.Department).First()).Dept_Name;
 
                     modelItems.Add(model);

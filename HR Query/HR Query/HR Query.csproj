@@ -167,18 +167,19 @@
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\QueryController.cs" />
     <Compile Include="Models\CreateEmployeeModel.cs" />
+    <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
     <Compile Include="Models\Department.cs">
       <DependentUpon>HRQueryModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Employee.cs">
       <DependentUpon>HRQueryModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
-    <Compile Include="Global.asax.cs">
-      <DependentUpon>Global.asax</DependentUpon>
-    </Compile>
     <Compile Include="Models\EmployeeProfileModel.cs" />
     <Compile Include="Models\EmployeeQueryModel.cs" />
+    <Compile Include="Models\HomeModels.cs" />
     <Compile Include="Models\HRQueryModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -197,9 +198,16 @@
     <Compile Include="Models\Location.cs">
       <DependentUpon>HRQueryModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\HomeModels.cs" />
-    <Compile Include="Models\QueryModel.cs" />
+    <Compile Include="Models\PendingTransactionsModel.cs" />
     <Compile Include="Models\Position_Type.cs">
+      <DependentUpon>HRQueryModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\QueryModel.cs" />
+    <Compile Include="Models\Request.cs">
+      <DependentUpon>HRQueryModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RequestModel.cs" />
+    <Compile Include="Models\Request_Type.cs">
       <DependentUpon>HRQueryModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -264,6 +272,9 @@
     <Content Include="Views\Query\CompleteEmployeeList.cshtml" />
     <Content Include="Views\Query\NullEmployeeList.cshtml" />
     <Content Include="Views\Profile\Create.cshtml" />
+    <Content Include="Views\Profile\Review.cshtml" />
+    <Content Include="Views\Profile\Pending.cshtml" />
+    <Content Include="Views\Profile\NullTransactionList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

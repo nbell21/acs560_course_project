@@ -15,26 +15,33 @@
         @Html.AntiForgeryToken()
             
         <p>
-            @Html.LabelFor(m => m.EmployeeName)
-            @Html.TextBoxFor(m => m.EmployeeName, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.EmployeeName, String.Empty, new { @class = "text-danger" })
+            @Html.LabelFor(m => m.EmployeeFirstName)
+            @Html.TextBoxFor(m => m.EmployeeFirstName, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.EmployeeFirstName, String.Empty, new { @class = "text-danger" })
         </p>
+        
+        <p>
+            @Html.LabelFor(m => m.EmployeeLastName)
+            @Html.TextBoxFor(m => m.EmployeeLastName, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.EmployeeLastName, String.Empty, new { @class = "text-danger" })
+        </p>
+        
         <h3 id="departmentsHeader">Select a department:</h3>
 
         @Html.DropDownListFor(m => m.DepartmentsDropDownSelection, Model.DepartmentsDropDown, new { @class = "btn btn-default", @id = "departmentsResult" }) 
-
+        <h5>@Html.ValidationMessageFor(m => m.DepartmentsDropDownSelection, String.Empty, new { @class = "text-danger" })</h5>
+        
         <h3 id="locationsHeader">Select a location:</h3>
 
         @Html.DropDownListFor(m => m.LocationsDropDownSelection, Model.LocationsDropDown, new { @class = "btn btn-default", @id = "locationsResult" }) 
-
+        <h5>@Html.ValidationMessageFor(m => m.LocationsDropDownSelection, String.Empty, new { @class = "text-danger" })</h5>
+        
         <h3 id="positionTypeHeader">Select a position type:</h3>
 
         @Html.DropDownListFor(m => m.PositionTypeDropDownSelection, Model.PositionTypeDropDown, new { @class = "btn btn-default", @id = "positionTypeResult" }) 
-        <br />
-        
+        <h5>@Html.ValidationMessageFor(m => m.PositionTypeDropDownSelection, String.Empty, new { @class = "text-danger" })</h5>
+           
         @Html.ValidationSummary(true, String.Empty, new { @class = "strong text-danger" })
-
-        <br />
         
         <button type="submit" class="btn btn-info">Submit</button>
     }

@@ -9,7 +9,7 @@ namespace HR_Query.Models
     public class EmployeeQueryModel 
     {
         public int EmployeeID { get; set; }
-        public String EmployeeName { get; set; }
+        public String EmployeeLastName { get; set; }
         public String SearchedCriteria { get; set; }
     }
 }

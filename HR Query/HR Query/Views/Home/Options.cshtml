@@ -13,6 +13,8 @@
 
     <h4>@Html.ActionLink("Create", "Create", "Profile") to add a new employee.</h4>
 
+    <h4>@Html.ActionLink("Pending", "Pending", "Profile") to manage a list of pending transactions.</h4>
+
     @using (Html.BeginForm("LogOff", "Home", FormMethod.Post, new { id = "logoutForm" })) {
             @Html.AntiForgeryToken() 
                 <h4><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a> to exit.</h4>
