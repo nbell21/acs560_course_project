@@ -8,13 +8,29 @@
 
 <div class="well">
 
-    <h3>@Model.EmployeeFirstName @Model.EmployeeLastName</h3>
+    @using (Html.BeginForm("Delete", "Profile", FormMethod.Post))
+    {
+    @Html.AntiForgeryToken()
+        
+    <h3><strong>Employee Details</strong></h3>
 
-    <h3>@Model.DepartmentName</h3>
+    <h3>Name: @Model.EmployeeFirstName @Model.EmployeeLastName</h3>
 
-    <h3>@Model.LocationName</h3>
+    <h3>Department: @Model.DepartmentName</h3>
 
-    <h3>@Model.PositionTypeName</h3>
+    <h3>Location: @Model.LocationName</h3>
+
+    <h3>Position Type: @Model.PositionTypeName</h3>
+
+    <br />
+        
+    @Html.HiddenFor(m => m.EmployeeID)
+    <strong>@ViewBag.Message</strong>
+        
+    <button type ="submit" class="btn btn-danger">Delete</button>
+    }
+
+    <br />
 
 @Html.ActionLink("Return", "Options", "Home") to pick a new option.
     

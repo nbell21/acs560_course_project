@@ -13,7 +13,7 @@ namespace HR_Query.Controllers
 
         //
         // GET: /Profile/
-
+        [HttpGet]
         public ActionResult Index(int profile_id = 0)
         {
             using (var db = new HR_QueryEntities())
@@ -33,8 +33,34 @@ namespace HR_Query.Controllers
         }
 
         //
-        // GET: /Profile/Create
+        // POST: /Profile/Delete
+        [HttpPost]
+        public ActionResult Delete(EmployeeProfileModel pModel)
+        {
+            using (var db = new HR_QueryEntities())
+            {
+                List<Request> query = db.Requests.Select(x => x).Where(x => x.Request_Status == true && x.Request_Type_Index == 2).ToList();
 
+                foreach (Request r in query)
+                {
+                    if (r.Employee_ID == pModel.EmployeeID)
+                        return RedirectToAction("Options", "Home");
+                }
+
+                Request newRequest = new Request();
+                newRequest.Requestor_Name = User.Identity.Name;
+                newRequest.Request_Status = true;
+                newRequest.Employee_ID = pModel.EmployeeID;
+                newRequest.Request_Type_Index = 2;
+                db.Requests.Add(newRequest);
+                db.SaveChanges();
+
+                return RedirectToAction("Options", "Home");
+            }
+        }
+
+        //
+        // GET: /Profile/Create
         [HttpGet]
         public ActionResult Create()
         {
@@ -79,7 +105,6 @@ namespace HR_Query.Controllers
 
         //
         // POST: /Profile/Create
-
         [HttpPost]
         public ActionResult Create(CreateEmployeeModel cModel)
         {
@@ -143,10 +168,9 @@ namespace HR_Query.Controllers
                 return View(cModel);
             }
         }
-
+        
         //
         // GET: /Pending/
-
         public ActionResult Pending()
         {
             
@@ -175,7 +199,6 @@ namespace HR_Query.Controllers
 
         //
         // GET: /Review/
-
         public ActionResult Review(int request_id = 0)
         {
             using (var db = new HR_QueryEntities())
@@ -210,6 +233,9 @@ namespace HR_Query.Controllers
 
                 if (selectedRequest.Request_Type_Index == 1)
                     associatedEmployee.Available = true;
+
+                if (selectedRequest.Request_Type_Index == 2)
+                    associatedEmployee.Available = false;
 
                 selectedRequest.Request_Status = false;
 

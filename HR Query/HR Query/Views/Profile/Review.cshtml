@@ -10,19 +10,21 @@
     @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl }))
     {
         @Html.AntiForgeryToken()
+    <h3><strong>Transaction Details</strong></h3>
+        
     <h3>Transaction Initiated By: @Model.RequestorName</h3>
 
     <h3>Transaction Type: @Model.TransactionType</h3>
     
-    <h3>Associated Employee Details:</h3>
+    <h3><strong>Employee Details</strong></h3>
 
-    <h3>@Model.EmployeeFirstName @Model.EmployeeLastName</h3>
+    <h3>Name: @Model.EmployeeFirstName @Model.EmployeeLastName</h3>
 
-    <h3>@Model.DepartmentName</h3>
+    <h3>Department: @Model.DepartmentName</h3>
 
-    <h3>@Model.LocationName</h3>
+    <h3>Location: @Model.LocationName</h3>
 
-    <h3>@Model.PositionTypeName</h3>
+    <h3>Position Type: @Model.PositionTypeName</h3>
 
     <br />
 

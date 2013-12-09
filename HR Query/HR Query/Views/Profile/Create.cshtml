@@ -10,7 +10,7 @@
 
     <h3>Enter the following information:</h3>
 
-    @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl }))
+    @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl}))
     {
         @Html.AntiForgeryToken()
             
@@ -50,3 +50,4 @@
     @Html.ActionLink("Return", "Options", "Home") to pick a new option.
                                                   
 </div>
+
