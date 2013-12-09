@@ -32,6 +32,8 @@
     @Html.HiddenFor(m => m.EmployeeID)        
         
     <button type="submit" class="btn btn-info">Approve</button>
+    @Html.ActionLink("Reject", "Reject", "Profile", new { requestID = @Model.RequestID }, new { @class = "btn btn-danger" })
+        
     }
     <br />
     <br />

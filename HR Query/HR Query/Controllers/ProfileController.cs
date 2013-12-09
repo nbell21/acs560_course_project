@@ -244,5 +244,22 @@ namespace HR_Query.Controllers
                 return RedirectToAction("Options", "Home");
             }
         }
+
+        //
+        // GET: /Review/
+        
+        public ActionResult Reject(int requestID = 0)
+        {
+            using (var db = new HR_QueryEntities())
+            {
+                Request selectedRequest = db.Requests.Select(x => x).Where(x => x.Request_ID == requestID).First();
+
+                selectedRequest.Request_Status = false;
+
+                db.SaveChanges();
+
+                return RedirectToAction("Options", "Home");
+            }
+        }
     }
 }
